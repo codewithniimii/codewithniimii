@@ -1,6 +1,6 @@
 [![MasterHead](https://th.bing.com/th/id/R.8fd6ae2f0922e6ed19909533860bde90?rik=Z9fAR26S5HCscw&pid=ImgRaw&r=0)](https://rishavchanda.io)
 <h1 align="center">Hi 👋, I'm Dipa</h1>
-<h3 align="center">A passionate full-stack developer from Nepal.</h3>
+<h3 align="center">A passionate full-stack developer based in Finland </h3>
 
 
 - 🌱 I’m currently learning **react native**
