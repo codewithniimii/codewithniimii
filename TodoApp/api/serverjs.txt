@@ -1,0 +1,93 @@
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+const app = express();
+
+app.use(express.json());
+app.use(cors());
+
+mongoose
+  .connect(
+    "mongodb+srv://todo:todo@cluster0.kutbz1p.mongodb.net/?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => {
+    console.error("MongoDB connection error:", error);
+  });
+
+// Models
+const Todo = require("./models/Todo");
+
+/* // Route for the root URL
+app.get("/", (req, res) => {
+  res.send("Welcome to the Todo API!");
+});
+ */
+app.get("/todos", async (req, res) => {
+  try {
+    const todos = await Todo.find();
+    res.json(todos);
+  } catch (error) {
+    console.error("Error fetching todos:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/todos", async (req, res) => {
+  try {
+    const todo = await Todo.create({
+      text: req.body.text,
+    });
+    res.json(todos);
+  } catch (error) {
+    console.error("Error creating todo:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.delete("/todos/:id", async (req, res) => {
+  try {
+    const result = await Todo.findByIdAndDelete(req.params.id);
+  // if result !result , throw the error not found along with status 404 
+    res.json({ result });
+  } catch (error) {
+    console.error("Error deleting todo:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.put("/todos/complete/:id", async (req, res) => {
+  try {
+    const result = await Todo.findByIdAndDelete(req.params.id);
+    // check !todo then throw error and status 404  if(!todo) todo == null or todo == undefined   
+    // findByIdAndUpdate
+    res.json(todo);
+   /*  todo.complete = !todo.complete;
+    await todo.save();
+    res.json(todo);
+  } catch (error) {
+    console.error("Error updating completion status:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  } */
+})
+
+app.put("/todos/:id", async (req, res) => {
+  try {
+    const todo = await Todo.findByIdAndUpdate(
+      req.params.id,
+      { text: req.body.text },
+      { new: true } // Return the updated document
+    );
+    res.json(todo);
+  } catch (error) {
+    console.error("Error updating todo:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.listen(3001,()=> console.log("server started on port 3001"));
