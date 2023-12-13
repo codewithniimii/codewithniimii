@@ -5,7 +5,9 @@ const cors = require('cors');
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+	{origin: ["http://localhost:3000/","http://TodoApp.onrender.com" ]}
+));
 
 mongoose.connect('mongodb+srv://todo:todo@cluster0.kutbz1p.mongodb.net/')
   .then(() => console.log("Connected to MongoDB"))
